@@ -44,13 +44,13 @@ and contributions welcome!
    `python ms_rewards.py --headless --mobile --pc --quiz`
    - enter `-h` or `--help` for more instructions - `--headless` is for headless
      mode - `--mobile` is for mobile search - `--pc` is for pc search - `--quiz`
-     is for quiz search  
-      - `-a` or `--all` is short for mobile, pc, and quiz search -
-     `--authenticator` use Microsoft Authenticator prompts instead of
-     passwords - **When using Microsoft Authenticator:** - Headless mode is
-     always disabled - Respond to the prompt within 90 seconds and Approve the
-     sign in request - Learn how to use and download the app at
-     [https://go.microsoft.com/fwlink/?linkid=871853](https://go.microsoft.com/fwlink/?linkid=871853)
+     is for quiz search
+     - `-a` or `--all` is short for mobile, pc, and quiz search -
+       `--authenticator` use Microsoft Authenticator prompts instead of
+       passwords - **When using Microsoft Authenticator:** - Headless mode is
+       always disabled - Respond to the prompt within 90 seconds and Approve the
+       sign in request - Learn how to use and download the app at
+       [https://go.microsoft.com/fwlink/?linkid=871853](https://go.microsoft.com/fwlink/?linkid=871853)
    - Script by default will execute mobile, pc, edge, searches, and complete
      quizzes for all accounts (can change this setting in the .py file)
    - Script by default will run in interactive mode

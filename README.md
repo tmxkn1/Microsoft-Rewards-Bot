@@ -3,12 +3,12 @@
 Microsoft Rewards (Bing Rewards) Bot - Completes searches and quizzes
 , written in Python!   :raised_hands: 
 
-<h2>Overview</h2>
+## Overview
 
 This program will automatically complete search requests and quizzes on Microsoft Rewards! Search terms are the daily top searches retrieved using Google Trends' API. This bot runs selenium in headless mode for deployment on VPS and for increased performance on local machines. The bot also uses selenium's user agent options to fulfill points for all three platforms (pc, edge browser, mobile). 100% free to use and open source.  Code critique/feedback and contributions welcome!
 
 
-<h2>Features</h2> 
+## Features
  
 - Completes PC search, Edge search, Mobile search via user agents
 - Retrieves top daily searches via Google Trends' API
@@ -19,14 +19,14 @@ This program will automatically complete search requests and quizzes on Microsof
 - Logs errors and info by default, can log executed commands and search terms by changing the log level to DEBUG
 - Tested and confirmed working for U.S. and U.K. (more to come!)  
 
-<h2>REQUIREMENTS</h2>
+## Requirements
 
 - Python 3.6
 - Requests 2.21.0
 - Selenium 3.14.0
 - Chrome Browser
 
-<h2>HOW TO USE</h2> 
+## How to Use
 
 1. Clone and navigate to repo
 2. Modify ms_rewards_login_dict.json with your account names and passwords, remove .example from filename.
@@ -66,7 +66,7 @@ This program will automatically complete search requests and quizzes on Microsof
 	- Change the paths to the json in the .py file to appropriate path
 
 
-<h2>TO DO</h2>
+## To Do
 
 - Argparse for options:
 	- logging 
@@ -78,14 +78,14 @@ This program will automatically complete search requests and quizzes on Microsof
 - Support for other regions
 - Telegram Intergration for reporting bot status/total points.
 
-<h2>License</h2>
+## License
 
 100% free to use and open source.  :see_no_evil: :hear_no_evil: :speak_no_evil:
 
 
-<h2>Versions</h2>  
+## Versions
 
 For a summary of changes in each version of the bot, please see the **[CHANGELOG](CHANGELOG.md).** Alternatively, a list of **[all commits to xMNG/master](https://github.com/xMNG/Microsoft-Rewards-Bot/commits/master)** is also available.
 
-<h4>Special Thanks</h4>
+#### Special Thanks
 @ShoGinn - for extraordinary assistance in making this project better!

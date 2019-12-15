@@ -1,6 +1,6 @@
 **2019-07-09**
 
-    - Fixed sporadic crashes caused by geolocation requests 
+    - Fixed sporadic crashes caused by geolocation requests
 
 **2019-07-02**
 
@@ -9,7 +9,7 @@
 
 **2019-06-25**
 
-    - Added support for 2FA, passwordless login via Microsoft Authenticator 
+    - Added support for 2FA, passwordless login via Microsoft Authenticator
 
 **2019-04-03**
 
@@ -19,7 +19,7 @@
 
     - Added adreo00's code for setting log level with argparse
 
-**2019-04-01**  
+**2019-04-01**
 
     - Added fix for detecting pcpoints element during point status check
     - Removed edge points as the status screen no longer displays them
@@ -38,16 +38,16 @@
 
     - Added chromedriver auto-downloading
 
-**2019-01-29**  
+**2019-01-29**
 
     - Added error handling for 'credits2', function should exit and script should continue to execute.
-    - Changed automation from firefox/geckodriver to chrome/chromedriver 
+    - Changed automation from firefox/geckodriver to chrome/chromedriver
         - Immediate improvement in speed and stability over firefox/geckodriver
         - Appears to use less RAM than firefox (suprisingly..)
         - May be possible to run on raspberrypi (rpi has chromedriver)
     - Mitigated credits2 error by performing an action before going to search URL
 
-**2018-12-20**  
+**2018-12-20**
 
     - Performance improvements
     - Fixed login, now waits until page is fully loaded
@@ -60,7 +60,7 @@
 **2018-11-28**
 
     - Fixed issue with daily poll IDs changing
-    - Added check for sign-in prompt after click on a quiz 
+    - Added check for sign-in prompt after click on a quiz
     - Misc fixes
 
 **2018-10-20**
@@ -75,4 +75,4 @@
 **2018-10-08**
 
     - Initial release
-    - Basic functionality for completing searches and quizzes.  
+    - Basic functionality for completing searches and quizzes.

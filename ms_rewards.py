@@ -250,6 +250,7 @@ def browser_setup(headless_mode, user_agent):
     options.add_argument(f'user-agent={user_agent}')
     options.add_argument('--disable-webgl')
     options.add_argument('--no-sandbox')
+    options.add_argument("--disable-extensions")
     options.add_argument('--disable-dev-shm-usage')
     options.add_experimental_option('w3c', False)
 
@@ -900,6 +901,14 @@ if __name__ == '__main__':
                 try:
                     log_in(email, password)
                     browser.get(DASHBOARD_URL)
+                    time.sleep(3)
+                    try:
+                        browser.execute_script(f"$(\"a:contains('Complete offer')\")[0].click();")
+                        time.sleep(3)
+                        main_window()
+                    except:
+                        logging.info(msg=f'Mobile App Task not found')
+                    time.sleep(1)
                     browser.get(BING_SEARCH_URL)
                     # mobile search
                     search(search_list, mobile_search=True)

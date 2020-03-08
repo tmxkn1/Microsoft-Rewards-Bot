@@ -16,3 +16,4 @@ geckodriver.log
 # cached python objects
 *.pyc
 *.pyo
+.DS_Store

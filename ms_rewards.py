@@ -1,11 +1,9 @@
 #! /usr/lib/python3.6
 # ms_rewards.py - Searches for results via pc bing browser and mobile, completes quizzes on pc bing browser
 # Version 2019.07.13
-
 # TODO replace sleeps with minimum sleeps for explicit waits to work, especially after a page redirect
 # FIXME mobile version does not require re-sign in, but pc version does, why?
 # FIXME Known Cosmetic Issue - logged point total caps out at the point cost of the item on wishlist
-
 import argparse
 import json
 import logging
@@ -14,21 +12,19 @@ import platform
 import random
 import time
 import zipfile
-import os
-from datetime import datetime, timedelta
+from datetime import datetime
+from datetime import timedelta
 
 import requests
 from requests.exceptions import RequestException
 from selenium import webdriver
-from selenium.common.exceptions import (
-    WebDriverException,
-    TimeoutException,
-    ElementClickInterceptedException,
-    ElementNotVisibleException,
-    ElementNotInteractableException,
-    NoSuchElementException,
-    UnexpectedAlertPresentException,
-)
+from selenium.common.exceptions import ElementClickInterceptedException
+from selenium.common.exceptions import ElementNotInteractableException
+from selenium.common.exceptions import ElementNotVisibleException
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import UnexpectedAlertPresentException
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By

@@ -903,7 +903,7 @@ if __name__ == '__main__':
                     browser.get(DASHBOARD_URL)
                     time.sleep(3)
                     try:
-                        browser.execute_script(f"$(\"a:contains('Complete offer')\")[0].click();")
+                        iter_dailies()
                         time.sleep(3)
                         main_window()
                     except:

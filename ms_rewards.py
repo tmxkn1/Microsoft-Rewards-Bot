@@ -165,13 +165,36 @@ def get_dates(days_to_get=4):
 
 
 def get_search_terms():
+    def get_cached_search_terms(file_name):
+        if not os.path.exists(file_name):
+            return []
+
+        with open(file_name, 'r') as f:
+            data = json.load(f)
+
+        if data['date_cached'] != datetime.now().strftime("%Y%m%d"):
+            return []
+        search_terms = data['terms']
+        return search_terms
+
+    def cache_search_terms(file_name, search_terms):
+        data = {}
+        data['date_cached'] = datetime.now().strftime("%Y%m%d")
+        data['terms'] = search_terms
+        with open(file_name, 'x') as file:
+            json.dump(data, file)
+
     def add_new_search_term(existing_terms, new_term):
         if new_term not in existing_terms:
             existing_terms.append(new_term)
 
     dates = get_dates()
+    local_file = 'search_terms.json'
 
-    search_terms = []
+    search_terms = get_cached_search_terms(local_file)
+    if len(search_terms):
+        return list(set(search_terms))
+
     for date in dates:
         try:
             # get URL, get api response and parse with json
@@ -190,6 +213,8 @@ def get_search_terms():
             logging.error('Cannot parse, JSON keys are modified.')
     # get unique terms and return a list
     logging.info(msg=f'# of search items: {len(search_terms)}\n')
+
+    cache_search_terms(local_file, search_terms)
     return list(set(search_terms))
 
 

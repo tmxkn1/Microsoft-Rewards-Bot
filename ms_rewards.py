@@ -900,8 +900,8 @@ def xprint(msg):
 
 if __name__ == '__main__':
     check_python_version()
-    if os.path.exists("drivers/chromedriver.exe"):
-        update_driver()
+    # if os.path.exists("drivers/chromedriver.exe"):
+        # update_driver()
     terminal_silent = False
     try:
         # argparse

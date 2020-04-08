@@ -68,7 +68,7 @@ def _log_level_string_to_int(log_level_string):
         message = f'invalid choice: {log_level_string} (choose from {_LOG_LEVEL_STRINGS})'
         raise argparse.ArgumentTypeError(message)
 
-    log_level_int = getattr(logging, log_level_string, logging.INFO)
+    log_level_int = getattr(logging, log_level_string, xlog)
     # check the logging log_level_choices have not changed from our expected values
     assert isinstance(log_level_int, int)
     return log_level_int
@@ -212,7 +212,7 @@ def get_search_terms():
         except KeyError:
             logging.error('Cannot parse, JSON keys are modified.')
     # get unique terms and return a list
-    logging.info(msg=f'# of search items: {len(search_terms)}\n')
+    xlog(msg=f'# of search items: {len(search_terms)}\n')
 
     cache_search_terms(local_file, search_terms)
     return list(set(search_terms))
@@ -298,7 +298,7 @@ def browser_setup(headless_mode, user_agent):
 
 
 def log_in(email_address, pass_word):
-    logging.info(msg=f'Logging in {email_address}...')
+    xlog(msg=f'Logging in {email_address}...')
     browser.get('https://login.live.com/')
     time.sleep(0.5)
     # wait for login form and enter email
@@ -567,9 +567,9 @@ def search(search_terms, mobile_search=False):
         random.shuffle(search_terms)
         search_terms = list(enumerate(search_terms, start=0))
 
-    logging.info(msg="Search Start")
+    xlog(msg="Search Start")
     if search_terms == [] or search_terms is None:
-        logging.info(msg="Search Aborted. No Search Terms.")
+        xlog(msg="Search Aborted. No Search Terms.")
     else:
         browser.get(BING_SEARCH_URL)
         # ensure signed in not in mobile mode (pc mode doesn't register when searching)
@@ -578,8 +578,9 @@ def search(search_terms, mobile_search=False):
 
         for num, item in search_terms:
             try:
+                xprint("%s search - %i/%i: %s" % ("mobile" if mobile_search else "pc", num, search_limit, item))
                 # clears search bar and enters in next search term
-                time.sleep(1)
+                time.sleep(0.2)
                 wait_until_visible(By.ID, 'sb_form_q', 15)
                 clear_by_id('sb_form_q')
                 send_key_by_id('sb_form_q', item)
@@ -587,20 +588,20 @@ def search(search_terms, mobile_search=False):
                 send_key_by_id('sb_form_q', Keys.RETURN)
                 # prints search term and item, limited to 80 chars
                 logging.debug(msg=f'Search #{num}: {item[:80]}')
-                time.sleep(random.randint(3, 4))  # random sleep for more human-like, and let ms reward website keep up.
+                time.sleep(random.randint(3,4))  # random sleep for more human-like, and let ms reward website keep up.
 
                 # check to see if search is complete, if yes, break out of loop
                 if num % search_limit == 0:
                     if mobile_search:
                         # in mobile mode, get point total does not work if no search is done, URL = 404
                         if get_point_total(mobile=True):
-                            logging.info(msg=f'Stopped at search number {num}')
+                            xlog(msg=f'Stopped at search number {num}')
                             return
                         # if point total not met, return to search page
                         browser.get(BING_SEARCH_URL)
                     else:
                         if get_point_total(pc=True):
-                            logging.info(msg=f'Stopped at search number {num}')
+                            xlog(msg=f'Stopped at search number {num}')
                             return
                         browser.get(BING_SEARCH_URL)
             except UnexpectedAlertPresentException:
@@ -617,7 +618,7 @@ def iter_dailies():
     time.sleep(4)
     open_offers = browser.find_elements_by_xpath('//span[contains(@class, "mee-icon-AddMedium")]')
     if open_offers:
-        logging.info(msg=f'Number of open offers: {len(open_offers)}')
+        xlog(msg=f'Number of open offers: {len(open_offers)}')
         # get common parent element of open_offers
         parent_elements = [open_offer.find_element_by_xpath('..//..//..//..') for open_offer in open_offers]
         # get points links from parent, # finds link (a) descendant of selected node
@@ -664,9 +665,9 @@ def iter_dailies():
         time.sleep(0.1)
         wait_until_visible(By.TAG_NAME, 'body', 10)  # checks for page load
         open_offers = browser.find_elements_by_xpath('//span[contains(@class, "mee-icon-AddMedium")]')
-        logging.info(msg=f'Number of incomplete offers remaining: {len(open_offers)}')
+        xlog(msg=f'Number of incomplete offers remaining: {len(open_offers)}')
     else:
-        logging.info(msg='No dailies found.')
+        xlog(msg='No dailies found.')
 
 
 def explore_daily():
@@ -790,13 +791,13 @@ def sign_in_prompt():
     time.sleep(3)
     sign_in_prompt_msg = find_by_class('simpleSignIn')
     if sign_in_prompt_msg:
-        logging.info(msg='Detected sign-in prompt')
+        xlog(msg='Detected sign-in prompt')
         browser.find_element_by_link_text('Sign in').click()
-        logging.info(msg='Clicked sign-in prompt')
+        xlog(msg='Clicked sign-in prompt')
         time.sleep(4)
 
 
-def get_point_total(pc=False, mobile=False, log=False):
+def get_point_total(pc=False, mobile=False, log=True):
     """
     Checks for points for pc/edge and mobile, logs if flag is set
     :return: Boolean for either pc/edge or mobile points met
@@ -831,10 +832,10 @@ def get_point_total(pc=False, mobile=False, log=False):
 
     # if log flag is provided, log the point totals
     if log:
-        logging.info(msg=f'Total points = {current_point_total}')
-        logging.info(msg=f'PC points = {current_pc_points}/{max_pc_points}')
-        # logging.info(msg=f'Edge points = {current_edge_points}/{max_edge_points}')
-        logging.info(msg=f'Mobile points = {current_mobile_points}/{max_mobile_points}')
+        xlog(msg=f'Total points = {current_point_total}')
+        xlog(msg=f'PC points = {current_pc_points}/{max_pc_points}')
+        # xlog(msg=f'Edge points = {current_edge_points}/{max_edge_points}')
+        xlog(msg=f'Mobile points = {current_mobile_points}/{max_mobile_points}')
 
     # if pc flag, check if pc and edge points met
     if pc:
@@ -886,24 +887,35 @@ def ensure_pc_mode_logged_in():
     click_by_id('id_l')
     time.sleep(0.1)
 
+def xlog(msg, *args, **kwargs):
+    logging.info(msg, *args, **kwargs)
+    xprint(msg)
+
+
+def xprint(msg):
+    if terminal_silent:
+        return
+    print(msg)
+
 
 if __name__ == '__main__':
     check_python_version()
     if os.path.exists("drivers/chromedriver.exe"):
         update_driver()
+    terminal_silent = False
     try:
         # argparse
         parser = parse_args()
 
         # start logging
         init_logging(log_level=parser.log_level)
-        logging.info(msg='--------------------------------------------------')
-        logging.info(msg='-----------------------New------------------------')
-        logging.info(msg='--------------------------------------------------')
+        xlog(msg='--------------------------------------------------')
+        xlog(msg='-----------------------New------------------------')
+        xlog(msg='--------------------------------------------------')
 
         # get login dict
         login_dict = get_login_info()
-        logging.info(msg='logins retrieved.')
+        xlog(msg='logins retrieved.')
 
         # get search terms
         search_list = []
@@ -924,7 +936,7 @@ if __name__ == '__main__':
 
             if parser.mobile_mode:
                 # MOBILE MODE
-                logging.info(msg='-------------------------MOBILE-------------------------')
+                xlog(msg='-------------------------MOBILE-------------------------')
                 # set up headless browser and mobile user agent
                 browser = browser_setup(parser.headless_setting, MOBILE_USER_AGENT)
                 try:
@@ -936,7 +948,7 @@ if __name__ == '__main__':
                         time.sleep(3)
                         main_window()
                     except:
-                        logging.info(msg=f'Mobile App Task not found')
+                        xlog(msg=f'Mobile App Task not found')
                     time.sleep(1)
                     browser.get(BING_SEARCH_URL)
                     # mobile search
@@ -948,12 +960,12 @@ if __name__ == '__main__':
                 except KeyboardInterrupt:
                     browser.quit()
                 except WebDriverException:
-                    logging.info(msg=f'WebDriverException while executing mobile portion', exc_info=True)
+                    xlog(msg=f'WebDriverException while executing mobile portion', exc_info=True)
                     browser.quit()
 
             if parser.pc_mode or parser.quiz_mode or parser.email_mode:
                 # PC MODE
-                logging.info(msg='-------------------------PC-------------------------')
+                xlog(msg='-------------------------PC-------------------------')
                 # set up edge headless browser and edge pc user agent
                 browser = browser_setup(parser.headless_setting, PC_USER_AGENT)
                 try:

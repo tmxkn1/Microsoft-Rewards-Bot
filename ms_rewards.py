@@ -165,6 +165,10 @@ def get_dates(days_to_get=4):
 
 
 def get_search_terms():
+    def add_new_search_term(existing_terms, new_term):
+        if new_term not in existing_terms:
+            existing_terms.append(new_term)
+
     dates = get_dates()
 
     search_terms = []
@@ -176,9 +180,9 @@ def get_search_terms():
             response = json.loads(request.text[5:])
             # get all trending searches with their related queries
             for topic in response['default']['trendingSearchesDays'][0]['trendingSearches']:
-                search_terms.append(topic['title']['query'].lower())
+                add_new_search_term(search_terms, topic['title']['query'].lower())
                 for related_topic in topic['relatedQueries']:
-                    search_terms.append(related_topic['query'].lower())
+                    add_new_search_term(search_terms, related_topic['query'].lower())
             time.sleep(random.randint(3, 5))
         except RequestException:
             logging.error('Error retrieving google trends json.')

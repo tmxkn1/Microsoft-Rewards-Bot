@@ -181,7 +181,7 @@ def get_search_terms():
         data = {}
         data['date_cached'] = datetime.now().strftime("%Y%m%d")
         data['terms'] = search_terms
-        with open(file_name, 'x') as file:
+        with open(file_name, 'w') as file:
             json.dump(data, file)
 
     def add_new_search_term(existing_terms, new_term):

@@ -900,8 +900,8 @@ def xprint(msg):
 
 if __name__ == '__main__':
     check_python_version()
-    # if os.path.exists("drivers/chromedriver.exe"):
-        # update_driver()
+    if os.path.exists("drivers/chromedriver.exe"):
+        update_driver()
     terminal_silent = False
     try:
         # argparse
@@ -989,5 +989,5 @@ if __name__ == '__main__':
                     logging.error(msg=f'WebDriverException while executing pc portion', exc_info=True)
                 finally:
                     browser.quit()
-    except WebDriverException:
+    except WebDriverException as err:
         logging.exception(msg='Failure at main()')
